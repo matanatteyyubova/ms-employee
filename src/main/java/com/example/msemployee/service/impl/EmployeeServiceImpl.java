@@ -2,6 +2,7 @@ package com.example.msemployee.service.impl;
 
 import com.example.msemployee.dto.EmployeeDto;
 import com.example.msemployee.entity.Employee;
+import com.example.msemployee.exception.ResourceNotFoundException;
 import com.example.msemployee.mapper.EmployeeMapper;
 import com.example.msemployee.repository.EmployeeRepository;
 import com.example.msemployee.service.EmployeeService;
@@ -23,10 +24,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
-
+     @Override
     public List<EmployeeDto> getAllEmployees(){
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
                 .map((EmployeeMapper::mapToEmployeeDto)).toList();
     }
+    @Override
+    public EmployeeDto getEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(()-> new ResourceNotFoundException("Employee not found"));
+        return  EmployeeMapper.mapToEmployeeDto(employee);
+    };
 }

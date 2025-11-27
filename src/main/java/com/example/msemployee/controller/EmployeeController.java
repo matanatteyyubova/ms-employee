@@ -1,6 +1,4 @@
 package com.example.msemployee.controller;
-
-
 import com.example.msemployee.dto.EmployeeDto;
 import com.example.msemployee.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +18,11 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(){
         return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id){
+        return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 
     @PostMapping
